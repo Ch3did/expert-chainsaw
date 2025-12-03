@@ -1,0 +1,9 @@
+FROM docker.elastic.co/elasticsearch/elasticsearch:8.15.0
+
+USER root
+
+RUN mkdir -p /usr/share/elasticsearch/data && \
+    chown -R elasticsearch:elasticsearch /usr/share/elasticsearch && \
+    chmod -R 777 /usr/share/elasticsearch/data
+
+USER elasticsearch
