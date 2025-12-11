@@ -1,6 +1,7 @@
 # serializers.py
 from rest_framework import serializers
-from .models import Service, Budget
+
+from .models.budget import Budget, Service
 
 
 class ServiceSerializer(serializers.ModelSerializer):
