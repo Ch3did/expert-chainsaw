@@ -1,14 +1,36 @@
 services:
   db:
-    container_name: oficina
+    container_name: oficina_db
     image: postgres:15
     env_file:
     - .env
     volumes:
       - pgdata:/var/lib/postgresql/data
-    
+    networks:
+      - oficina_network
     ports: 
       - 5432:5432
 
+  web:
+    container_name: oficina_web
+    build: .
+    command: >
+      bash -c "python manage.py migrate &&
+               python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      - db
+    networks:
+      - oficina_network
+    ports:
+      - "8000:8000"
+
 volumes:
   pgdata: {}
+
+networks:
+  oficina_network:
+    driver: bridge

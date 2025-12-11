@@ -81,7 +81,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "HOST": "localhost",
+        "HOST": "db",
         "PORT": 5432,
         "NAME": "cabriton",
         "USER": "postgres",
