@@ -8,7 +8,6 @@ from orcamento.models.product import Product
 
 
 def _lock_product(product_id: int) -> Product:
-    # trava a linha do produto pra evitar corrida de estoque
     return Product.objects.select_for_update().get(id=product_id)
 
 
@@ -40,11 +39,6 @@ def budgetproduct_post_save(sender, instance: BudgetProduct, created: bool, **kw
 
         # delta > 0 => precisa debitar mais do estoque
         if delta > 0:
-            if product.stock_quantity < delta:
-                raise ValidationError(
-                    f"Estoque insuficiente para {product.name}. "
-                    f"Disponível: {product.stock_quantity}, solicitado a mais: {delta}."
-                )
             product.stock_quantity -= delta
             product.save(update_fields=["stock_quantity"])
 
