@@ -10,9 +10,14 @@ pre-commit:
 	@echo running isort
 	@isort .
 
+.PHONY: migrations
+migrations:
+	${COMMAND} makemigrations
+
 .PHONY: migrate
 migrate:
-	${COMMAND} migrations
+	${COMMAND} migrate
+
 
 .PHONY: run
 run:
