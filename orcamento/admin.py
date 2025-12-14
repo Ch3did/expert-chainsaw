@@ -25,11 +25,11 @@ class ProductAdmin(admin.ModelAdmin):
         "id",
         "name",
         "unit_price",
-        "stock_quantity",
+        "stock_quantity"
     )
     search_fields = (
         "name",
-        "stock_quantity",
+        "stock_quantity"
     )
 
 
