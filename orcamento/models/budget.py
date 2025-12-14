@@ -99,7 +99,7 @@ class BudgetProduct(models.Model):
         on_delete=models.CASCADE,
         related_name="product_budgets",
     )
-    quantity = models.PositiveIntegerField(default=1)
+    quantity = models.IntegerField(default=1)
 
     unit_price = models.DecimalField(
         max_digits=10,
