@@ -7,6 +7,7 @@ from django.db.models.functions import Coalesce
 from orcamento.models.client import Client
 from orcamento.models.product import Product
 from orcamento.models.service import Service
+from orcamento.models.payments import Payment
 
 
 class Budget(models.Model):
@@ -53,6 +54,18 @@ class Budget(models.Model):
 
         if commit:
             self.save(update_fields=["value"])
+            
+    @property
+    def total_paid(self):
+        return (
+            Payment.objects
+            .filter(installment__budget=self)
+            .aggregate(total=models.Sum('amount'))['total'] or 0
+        )
+
+    @property
+    def balance_due(self):
+        return self.total_value - self.total_paid
 
 
 class BudgetService(models.Model):
