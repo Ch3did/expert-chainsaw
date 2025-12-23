@@ -4,8 +4,25 @@ from orcamento.models.budget import Budget, BudgetService, BudgetProduct
 from orcamento.models.client import Client
 from orcamento.models.product import Product
 from orcamento.models.service import Service
+from orcamento.models.payments import Payment
+from orcamento.models.installments import Installment
 
 
+@admin.register(Payment)
+class PaymentAdmin(admin.ModelAdmin):
+    list_display = ("id", "installment", "amount", "payment_date", "method")
+    search_fields = ("installment__budget__bling_id", "installment__number")
+    list_filter = ("method", "payment_date")
+    
+class PaymentInline(admin.TabularInline):
+    model = Payment
+    extra = 1
+
+@admin.register(Installment)
+class InstallmentAdmin(admin.ModelAdmin):
+    list_display = ("id", "budget", "number", "amount", "remaining")
+    inlines = [PaymentInline]
+    
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "description", "value")
